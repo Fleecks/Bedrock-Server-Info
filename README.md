@@ -1,1 +1,0 @@
-API by mcsrvstat.us
