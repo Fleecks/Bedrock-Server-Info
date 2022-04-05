@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bedrock Server Info</title>
+  </head>
+  <body>
+    IP: <span id=ip>...</span> <br>
+    Status: <span id=status>...</span> <br>
+    Version: <span id=version>...</span><br>
+    Player's online: <span id=players.online>...</span><br>
+    Max player's: <span id=players.max>...</span>
+  </body>
+  <script>
+    var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+    var anHttpRequest = new XMLHttpRequest();
+    anHttpRequest.onreadystatechange = function() {
+    if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+    aCallback(anHttpRequest.responseText);
+    }
+    anHttpRequest.open("GET", aUrl, true);
+    anHttpRequest.send(null);
+    }
+    }
+    var ip = "bandomas.xyz"
+    var theurl = 'https://api.mcsrvstat.us/bedrock/2/' + ip;
+    var client = new HttpClient();
+    client.get(theurl, function(response) {
+    var response1 = JSON.parse(response);
+    if (response1.online == true){
+    var status = "Online";
+    } else {
+    var status = "Offline";
+    }
+    document.getElementById("ip").innerHTML = ip;
+    document.getElementById("status").innerHTML = status;
+    document.getElementById("version").innerHTML = response1.version;
+    document.getElementById("players.online").innerHTML = response1.players.online;
+    document.getElementById("players.max").innerHTML = response1.players.max;
+    });
+  </script>
+</html>
